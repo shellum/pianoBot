@@ -3,12 +3,13 @@
     <div style="margin-bottom:10px;">Correct {{ right }}/{{ wrong + right }}</div>
     <div>% breakdown per note</div>
     <ul>
-        <li v-for="(wrongNote,i) in wrongNoteIndex">
-            <div v-show="(rightNoteIndex[i] + wrongNoteIndex[i]) != 0">
-                <div style="display:inline-block;width:30%">{{ i.split("")[0].toUpperCase() }}: {{ rightNoteIndex[i] }}/{{ rightNoteIndex[i]+wrongNoteIndex[i] }}</div>
+        <li v-for="(specificNode,i) in noteScoreInfo">
+            <div v-show="(noteScoreInfo[i].right + noteScoreInfo[i].wrong) != 0">
+                <div style="display:inline-block;width:30%">{{ i.split("")[0].toUpperCase() }}: {{ noteScoreInfo[i].right }}/{{ noteScoreInfo[i].right + noteScoreInfo[i].wrong }}</div>
                 <div style="display:inline-block;width:60%">
-                    <div v-show="wrongNote != 0" :style="{backgroundColor: '#FF7F50', width: (wrongNote * 100 / wrong) + '%',height: '5px'}"></div>
-                    <div v-show="rightNoteIndex[i] != 0" :style="{backgroundColor: 'rgba(80,155,90,1)', width: (rightNoteIndex[i] * 100 / right) + '%',height: '5px'}"></div>
+                    <div v-show="noteScoreInfo[i].wrong != 0" :style="{backgroundColor: '#FF7F50', width: (noteScoreInfo[i].wrong * 100 / wrong) + '%',height: '5px'}"></div>
+                    <div v-show="noteScoreInfo[i].right != 0" :style="{backgroundColor: 'rgba(80,155,90,1)', width: (noteScoreInfo[i].right * 100 / right) + '%',height: '5px'}"></div>
+                    <div v-show="noteScoreInfo[i].times.length != 0" :style="{backgroundColor: 'rgb(0,191,255)', width: (Math.min(getNoteTimeAverage(i),30) * 100 / 30) + '%',height: '5px'}"></div>
                 </div>
             </div>
         </li>
@@ -21,26 +22,43 @@ import { eventBus } from '../main'
 export default {
     data: function() {
         return {
-            wrongNoteIndex: {},
-            rightNoteIndex: {},
+            noteScoreInfo: {},
             right: 0,
             wrong: 0
         }
     },
+    methods: {
+        getNoteTimeAverage(note) {
+            var times = []
+            if (this.noteScoreInfo[note]) times = this.noteScoreInfo[note].times
+            var totalTime = times.reduce((acc,curr)=> {
+                return acc + curr
+            },0)
+            if (times.length == 0) {
+                return 0;
+            }
+            else {
+                return totalTime / times.length
+            }
+        }
+    },
     props: ['notes'],
     created() {
-        this.wrongNoteIndex = {}
+        this.noteScoreInfo = {}
         console.log(this.notes)
-        this.notes.map(note => this.wrongNoteIndex[note] = 0) 
-        this.rightNoteIndex = {}
-        this.notes.map(note => this.rightNoteIndex[note] = 0) 
+        this.notes.map(note => this.noteScoreInfo[note] = {right:0,wrong:0,times:[]}) 
         eventBus.$on('wrongAnswer', (note) => {
             this.wrong++
-            this.wrongNoteIndex[note]++
+            this.noteScoreInfo[note].wrong++
         })
         eventBus.$on('rightAnswer', (note) => {
             this.right++
-            this.rightNoteIndex[note]++
+            this.noteScoreInfo[note].right++
+        })
+        eventBus.$on('timeToGuess', (noteGuessInfo) => {
+            var now = (new Date()).getTime()
+            var seconds = Math.ceil((now - noteGuessInfo.time) / 1000)
+            this.noteScoreInfo[noteGuessInfo.note].times.push(seconds)
         })
    }
 }

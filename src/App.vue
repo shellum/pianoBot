@@ -29,11 +29,16 @@ export default {
     return {
       note: 'c1',
       notes: ['c1','d1','e1','f1','g1','a1','b1','c2','d2','e2','f2'],
+      timeWhenCurrentNoteStarted: (new Date()).getTime()
     }
   },
   methods: {
     changeNote() {
+      console.log('emitting '+'timeToGuess')
+      console.log('twcns: '+this.timeWhenCurrentNoteStarted)
+      eventBus.$emit('timeToGuess',{note: this.note,time: this.timeWhenCurrentNoteStarted})
       this.note = this.notes[Math.floor(Math.random() * this.notes.length)]
+      this.timeWhenCurrentNoteStarted = (new Date()).getTime()
     }
   },
   created() {
