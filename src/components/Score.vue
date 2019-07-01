@@ -19,12 +19,14 @@
 
 <script>
 import { eventBus } from '../main'
+import { util } from '../main'
 export default {
     data: function() {
         return {
             noteScoreInfo: {},
             right: 0,
-            wrong: 0
+            wrong: 0,
+            sessionId: 0
         }
     },
     methods: {
@@ -42,10 +44,10 @@ export default {
             }
         }
     },
-    props: ['notes'],
+    props: ['notes','username'],
     created() {
+        this.sessionId = ''+((new Date()).getTime())
         this.noteScoreInfo = {}
-        console.log(this.notes)
         this.notes.map(note => this.noteScoreInfo[note] = {right:0,wrong:0,times:[]}) 
         eventBus.$on('wrongAnswer', (note) => {
             this.wrong++
@@ -59,6 +61,11 @@ export default {
             var now = (new Date()).getTime()
             var seconds = Math.ceil((now - noteGuessInfo.time) / 1000)
             this.noteScoreInfo[noteGuessInfo.note].times.push(seconds)
+            var cookieObj = util.getHistoryFromCookie(this.username)
+            cookieObj[this.sessionId] = this.noteScoreInfo
+            var cookiePrefix = 'pianoBot_' + this.username + '='
+            var cookieData = cookiePrefix + JSON.stringify(cookieObj)
+            document.cookie=cookieData
         })
    }
 }
