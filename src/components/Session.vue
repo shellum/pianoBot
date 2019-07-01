@@ -2,7 +2,7 @@
     <div class="me">
         <div>Time in current session:</div>
         <div>{{ timeElapsed }}</div>
-        <History class='history' :username='username'></History>
+        <History :width="200" :height="200" class='history' :username='username'></History>
     </div>
 </template>
 
@@ -61,7 +61,7 @@ export default {
     padding: 10px;
     }
     .history {
-        width: 100px;
+        width: 200px;
         height: 200px;
     }
 </style>
