@@ -9,12 +9,14 @@ import { eventBus } from './main'
 
 import Bot from './components/Bot.vue'
 import Login from './components/Login.vue'
+import Admin from './components/Admin.vue'
 
 export default {
   name: 'pianoBot',
   components: {
     Bot,
-    Login
+    Login,
+    Admin
   },
   data () {
     return {
@@ -27,7 +29,12 @@ export default {
   created() {
     eventBus.$on('userLoggedIn', (username) => {
       this.username = username
-      this.componentName = 'Bot'
+      if (username==='admin') {
+        this.componentName = 'Admin'
+      }
+      else {
+        this.componentName = 'Bot'
+      }
     })
   }
 }

@@ -60,11 +60,12 @@ export default {
         eventBus.$on('timeToGuess', (noteGuessInfo) => {
             var now = (new Date()).getTime()
             var seconds = Math.ceil((now - noteGuessInfo.time) / 1000)
+            console.log('took: '+seconds)
             this.noteScoreInfo[noteGuessInfo.note].times.push(seconds)
             var cookieObj = util.getHistoryFromCookie(this.username)
             cookieObj[this.sessionId] = this.noteScoreInfo
             var cookiePrefix = 'pianoBot_' + this.username + '='
-            var cookieData = cookiePrefix + JSON.stringify(cookieObj)
+            var cookieData = cookiePrefix + JSON.stringify(cookieObj) + '; expires=Fri, 31 Dec 2035 23:59:59 GMT'
             document.cookie=cookieData
         })
    }

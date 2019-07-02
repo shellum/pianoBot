@@ -1,6 +1,6 @@
 <template>
   <div class="mybot">
-{{ username }}
+User: {{ username }}
     <div class='header'>PianoBot</div>
     <Session class='session' :username='username'></Session>
     <Score :notes='notes' class='score' :username='username'></Score>
