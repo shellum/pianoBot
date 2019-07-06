@@ -22,11 +22,19 @@ export default {
         }
     },
     created() {
-        var cookie = document.cookie
-        var cookies = cookie.split(';')
-        var appCookies = cookies.filter(x=>{return x.trim().indexOf('pianoBot_')==0})
-        var usernames = appCookies.map(x => {return x.split("=")[0].trim().replace("pianoBot_","")})
-        this.usernames = usernames
+        var that = this
+        db.collection("sessions")
+            .get()
+            .then(function(querySnapshot) {
+                var usernames = []
+                querySnapshot.forEach(function(doc) {
+                    usernames.push(doc.id)
+                });
+                that.usernames = usernames
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
     }
 }
 </script>

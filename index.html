@@ -15,6 +15,32 @@
     <div class="mycontainer">
       <div id="app"></div>
     </div>
-    <script src="dist/build.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+    
+    <script>
+      var username = (new URLSearchParams(window.location.search)).get("username")
+      var password = (new URLSearchParams(window.location.search)).get('password')
+      var firebaseConfig = {
+        apiKey: "AIzaSyAthqBLqIJxGphI5LHAjsnNFr5llKigY4k",
+        authDomain: "pianobot123.firebaseapp.com",
+        databaseURL: "https://pianobot123.firebaseio.com",
+        projectId: "pianobot123",
+        storageBucket: "pianobot123.appspot.com",
+        messagingSenderId: "891314160911",
+        appId: "1:891314160911:web:19262cd305b0bd71"
+      };
+      var db = {}
+      var that = this
+      firebase.initializeApp(firebaseConfig);
+      firebase.auth().signOut().then(function() {
+        firebase.auth().signInWithEmailAndPassword(username,password)
+        that.db = firebase.firestore();
+      })
+      
+    </script>
+<script src="dist/build.js"></script>
   </body>
 </html>
