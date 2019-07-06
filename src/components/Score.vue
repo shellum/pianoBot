@@ -70,7 +70,6 @@ export default {
                 if (doc.exists) {
                     cookieObj = doc.data()
                 }
-                debugger;
                 cookieObj[that.sessionId] = that.noteScoreInfo
                 db.collection("sessions").doc(that.username).set(cookieObj)
             })
