@@ -1,31 +1,36 @@
 <template>
     <div class="columns is-variable is-6">
-        <div class="column"><div class="answer has-text-centered" @click="answer('c')">C</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('d')">D</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('e')">E</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('f')">F</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('g')">G</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('a')">A</div></div>
-        <div class="column"><div class="answer has-text-centered" @click="answer('b')">B</div></div>
+        <div class="column"><AnswerButton @click.native="answer('c')" :text="'C'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('d')" :text="'D'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('e')" :text="'E'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('f')" :text="'F'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('g')" :text="'G'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('a')" :text="'A'"></AnswerButton></div>
+        <div class="column"><AnswerButton @click.native="answer('b')" :text="'B'"></AnswerButton></div>
     </div>
 </template>
 
 <script>
 import { eventBus } from '../main'
+import AnswerButton from './AnswerButton.vue'
 export default {
     data: function() {
         return {
 
         }
     },
+    components: {
+        AnswerButton
+    },
     props: ['note'],
     methods: {
         answer(noteSelected) {
+            console.log('answer clicked')
             if (this.note.split("")[0] != noteSelected) {
-                eventBus.$emit('wrongAnswer', this.note)
+                eventBus.$emit('wrongAnswer', {note: this.note, noteSelected: noteSelected})
             }
             else
-                eventBus.$emit('rightAnswer', this.note)
+                eventBus.$emit('rightAnswer', {note: this.note, noteSelected: noteSelected})
         }
     }
 }

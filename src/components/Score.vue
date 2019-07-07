@@ -49,13 +49,13 @@ export default {
         this.sessionId = ''+((new Date()).getTime())
         this.noteScoreInfo = {}
         this.notes.map(note => this.noteScoreInfo[note] = {right:0,wrong:0,times:[]}) 
-        eventBus.$on('wrongAnswer', (note) => {
+        eventBus.$on('wrongAnswer', (noteInfo) => {
             this.wrong++
-            this.noteScoreInfo[note].wrong++
+            this.noteScoreInfo[noteInfo.note].wrong++
         })
-        eventBus.$on('rightAnswer', (note) => {
+        eventBus.$on('rightAnswer', (noteInfo) => {
             this.right++
-            this.noteScoreInfo[note].right++
+            this.noteScoreInfo[noteInfo.note].right++
         })
         eventBus.$on('timeToGuess', (noteGuessInfo) => {
             var now = (new Date()).getTime()
