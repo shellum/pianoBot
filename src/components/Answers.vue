@@ -25,7 +25,6 @@ export default {
     props: ['note'],
     methods: {
         answer(noteSelected) {
-            console.log('answer clicked')
             if (this.note.split("")[0] != noteSelected) {
                 eventBus.$emit('wrongAnswer', {note: this.note, noteSelected: noteSelected})
             }

@@ -16,7 +16,6 @@ export default {
         eventBus.$on('wrongAnswer', (noteInfo) => {
             var selectedNote = noteInfo.noteSelected.toLowerCase()
             var thisButton = that.text.toLowerCase()
-            console.log("selnote, thisbutton: "+selectedNote +" - " + thisButton)
             if (selectedNote == thisButton)
                 that.wrong = true;
         })

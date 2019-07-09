@@ -62,13 +62,14 @@ export default {
             var seconds = Math.ceil((now - noteGuessInfo.time) / 1000)
             console.log('took: '+seconds)
             this.noteScoreInfo[noteGuessInfo.note].times.push(seconds)
-
+            console.log(JSON.stringify(this.noteScoreInfo))
             var that = this
             var docRef = db.collection("sessions").doc(this.username);
             docRef.get().then(function(doc) {
                 var cookieObj = {}
                 if (doc.exists) {
                     cookieObj = doc.data()
+                    console.log(JSON.stringify(doc.data()))
                 }
                 cookieObj[that.sessionId] = that.noteScoreInfo
                 db.collection("sessions").doc(that.username).set(cookieObj)
