@@ -1,4 +1,43 @@
 export const util = {
+  getNewBadges: function(currentBadges, fullPayload) {
+    var stats = this.getStatsFromFullPayload(fullPayload)
+    var badgesQualifiedFor = this.findBadgesQualifiedFor(stats)
+    var newBadges = badgesQualifiedFor.filter(x => !currentBadges.includes(x))
+    return newBadges
+  },
+
+  getBadgeInfo: function(badgeId) {
+    if (badgeId == 'right1')
+      return {id: 'right1', name: '5 Right', img: 'badge.png'}
+    else if (badgeId == 'right2')
+      return {id: 'right2', name: '100 Right', img: 'badge.png'}
+    else if (badgeId == 'right3')
+      return {id: 'right3', name: '500 Right', img: 'badge.png'}
+    else if (badgeId == 'practice1')
+      return {id: 'practice1', name: 'Great Practice', img: 'badge.png'}
+    else if (badgeId == 'practice2')
+      return {id: 'practice2', name: 'Monster Practice', img: 'badge.png'}
+    else if (badgeId == 'speed1')
+      return {id: 'speed1', name: 'Wind Quick', img: 'badge.png'}
+  },
+
+  findBadgesQualifiedFor: function(stats) {
+    var badgesQualifiedFor = []
+    if (stats.currentRights >= 5)
+      badgesQualifiedFor.push('right1')
+    if (stats.currentRights >= 100)
+      badgesQualifiedFor.push('right2')
+    if (stats.currentRights >= 500)
+      badgesQualifiedFor.push('right3')
+    if (stats.currentTimeInSession >= 5*60 && stats.currentTimePerNote < 15)
+      badgesQualifiedFor.push('practice1')
+    if (stats.currentTimeInSession >= 5*60 && stats.currentTimePerNote < 10)
+      badgesQualifiedFor.push('practice2')
+    if (stats.currentTimePerNote <= 10 && stats.currentRights >= 10)
+      badgesQualifiedFor.push('speed1')
+    return badgesQualifiedFor
+  },
+
   getStatsFromFullPayload: function(fullPayload) {
     var rights = []
     var wrongs = []
@@ -12,7 +51,9 @@ export const util = {
     var currentTimeInSession = 0
     var currentTimeLens = 0
 
-    var mostRecentSession = Object.keys(fullPayload).reduce((acc,curr)=>{
+    var fullPayloadSessionKeys = Object.keys(fullPayload).filter(x => x != 'badges')
+
+    var mostRecentSession = fullPayloadSessionKeys.reduce((acc,curr)=>{
       if (parseInt(curr,10) > acc)
         return parseInt(curr,10)
       else
@@ -33,7 +74,7 @@ export const util = {
     })
     currentTimePerNote = currentTimeInSession/Math.max(1,currentTimeLens)
 
-    Object.keys(fullPayload).map(function(hKey,hIndex) {
+    fullPayloadSessionKeys.map(function(hKey,hIndex) {
         var session = fullPayload[hKey]
         rights.push(0)
         wrongs.push(0)

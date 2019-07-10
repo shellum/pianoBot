@@ -27,6 +27,10 @@ export default {
   methods: {
   },
   created() {
+    eventBus.$on('userLoggedOut', () => {
+      this.componentName = 'Login'
+      location.reload()
+    })
     eventBus.$on('userLoggedIn', (username) => {
       this.username = username
       if (username==='admin') {

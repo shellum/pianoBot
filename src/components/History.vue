@@ -1,6 +1,7 @@
 <script>
 import { Bar } from 'vue-chartjs'
 import { util } from '../util'
+import { eventBus } from '../main'
 
 export default {
   extends: Bar,
@@ -23,10 +24,10 @@ export default {
            var that = this
             var docRef = db.collection("sessions").doc(this.username);
             docRef.get().then(function(doc) {
-              console.log(doc.data())
                 var cookieObj = {}
                 if (doc.exists) {
                     cookieObj = doc.data()
+                    eventBus.$emit('badgesUpdate',cookieObj.badges)
                 }
                 var stats = util.getStatsFromFullPayload(cookieObj)
                 that.chartdata.datasets.push({

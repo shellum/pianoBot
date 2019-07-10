@@ -1,6 +1,21 @@
 var assert = require('assert');
 import { util } from '../src/util.js'
 
+var qualifyForBadgesPayload = {
+  "12345": {
+    "a1": {
+      right: 3,
+      wrong: 3,
+      times: [2]
+    },
+    "b1": {
+      right: 7,
+      wrong: 3,
+      times: [2]
+    }
+  }
+}
+
 var payload = {
 	"1562469039508": {
 		"a1": {
@@ -236,6 +251,27 @@ describe('util', function() {
     var stats = util.getStatsFromFullPayload(payload)
     it('should return the correct reduced times recent(current) history', function() {
       assert.equal(stats.currentTimeInSession, 729);
+    });
+  });
+  
+  describe('getNewBadges', function() {
+    var badges = util.getNewBadges([],qualifyForBadgesPayload)
+    it('should return the correct number of new badges when no badges were previously awarded', function() {
+      assert.deepEqual(badges,['five','quick']);
+    });
+  });
+
+  describe('getNewBadges', function() {
+    var badges = util.getNewBadges(['five','quick'],qualifyForBadgesPayload)
+    it('should return the correct number of new badges when all badges were previously awarded', function() {
+      assert.deepEqual(badges,[]);
+    });
+  });
+
+  describe('getNewBadges', function() {
+    var badges = util.getNewBadges(['five'],qualifyForBadgesPayload)
+    it('should return the correct number of new badges when some badges were previously awarded', function() {
+      assert.deepEqual(badges,['quick']);
     });
   });
   

@@ -19,7 +19,7 @@
 
 <script>
 import { eventBus } from '../main'
-import { util } from '../main'
+import { util } from '../util'
 export default {
     data: function() {
         return {
@@ -60,18 +60,21 @@ export default {
         eventBus.$on('timeToGuess', (noteGuessInfo) => {
             var now = (new Date()).getTime()
             var seconds = Math.ceil((now - noteGuessInfo.time) / 1000)
-            console.log('took: '+seconds)
             this.noteScoreInfo[noteGuessInfo.note].times.push(seconds)
-            console.log(JSON.stringify(this.noteScoreInfo))
             var that = this
             var docRef = db.collection("sessions").doc(this.username);
             docRef.get().then(function(doc) {
                 var cookieObj = {}
                 if (doc.exists) {
                     cookieObj = doc.data()
-                    console.log(JSON.stringify(doc.data()))
                 }
                 cookieObj[that.sessionId] = that.noteScoreInfo
+                if (!cookieObj.badges)
+                    cookieObj['badges']=[]
+                var newBadges = util.getNewBadges(cookieObj.badges, cookieObj)
+                cookieObj.badges = cookieObj.badges.concat(newBadges)
+                eventBus.$emit('badgesUpdate',cookieObj.badges)
+                newBadges.forEach(x => M.toast({html: 'You just got the '+(util.getBadgeInfo(x).name)+' badge! &nbsp; &nbsp; <img src="./dist/'+(util.getBadgeInfo(x).img)+'">', classes: 'rounded green'}))
                 db.collection("sessions").doc(that.username).set(cookieObj)
             })
 
@@ -81,6 +84,9 @@ export default {
 </script>
 
 <style scoped>
+  .green {
+    background-color: green;
+  }
 .me {
     margin: auto;
     width: 220px;
