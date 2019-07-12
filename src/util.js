@@ -8,17 +8,22 @@ export const util = {
 
   getBadgeInfo: function(badgeId) {
     if (badgeId == 'right1')
-      return {id: 'right1', name: '5 Right', img: 'badge.png'}
+      return {id: 'right1', name: '5 Right', img: 'accuracy1.png'}
     else if (badgeId == 'right2')
-      return {id: 'right2', name: '100 Right', img: 'badge.png'}
+      return {id: 'right2', name: '100 Right', img: 'accuracy2.png'}
     else if (badgeId == 'right3')
-      return {id: 'right3', name: '500 Right', img: 'badge.png'}
+      return {id: 'right3', name: '500 Right', img: 'accuracy3.png'}
     else if (badgeId == 'practice1')
-      return {id: 'practice1', name: 'Great Practice', img: 'badge.png'}
+      return {id: 'practice1', name: 'Great Practice', img: 'practice1.png'}
     else if (badgeId == 'practice2')
-      return {id: 'practice2', name: 'Monster Practice', img: 'badge.png'}
+      return {id: 'practice2', name: 'Monster Practice', img: 'practice2.png'}
     else if (badgeId == 'speed1')
-      return {id: 'speed1', name: 'Wind Quick', img: 'badge.png'}
+      return {id: 'speed1', name: 'Wind Quick', img: 'speed1.png'}
+    else if (badgeId == 'speed2')
+      return {id: 'speed2', name: 'Super Speed', img: 'speed1.png'}
+    else
+      return {id: '???', name: '???', img: 'badge.png'}
+
   },
 
   findBadgesQualifiedFor: function(stats) {

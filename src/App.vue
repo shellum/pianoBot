@@ -10,13 +10,15 @@ import { eventBus } from './main'
 import Bot from './components/Bot.vue'
 import Login from './components/Login.vue'
 import Admin from './components/Admin.vue'
+import Session from './components/Session.vue'
 
 export default {
   name: 'pianoBot',
   components: {
     Bot,
     Login,
-    Admin
+    Admin,
+    Session
   },
   data () {
     return {
@@ -30,6 +32,9 @@ export default {
     eventBus.$on('userLoggedOut', () => {
       this.componentName = 'Login'
       location.reload()
+    })
+    eventBus.$on('timeUp',(username) => {
+      this.componentName = 'Session'
     })
     eventBus.$on('userLoggedIn', (username) => {
       this.username = username

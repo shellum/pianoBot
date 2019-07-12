@@ -6,7 +6,6 @@
       <div class='header-section header-small link' @click='logout()' style='float:right;'>Logout</div>
     </div>
     <Session class='session' :username='username'></Session>
-    <Score :notes='notes' class='score' :username='username'></Score>
     <FlashCard :note='note' class="flashcard"></FlashCard>
     <Answers :note='note' class="answers"></Answers>
     <button @click='changeNote()'></button>
@@ -82,6 +81,7 @@ export default {
   }
   .session {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity: 0;
   }
   .header-section {
     display: inline-block;
