@@ -34,8 +34,6 @@
         context.imageSmoothingEnabled = true;
         context.strokeStyle = "#555";
         context.fillStyle = "#555";
-        context.font = '200px Verdana';
-        context.fillText("𝄞", padding/4, canvas.height / 2 * 1.3);
         for (let y of [0,1,2,3,4]) {
             context.beginPath();
             context.moveTo(padding/4, y * spaceBetweenLines + padding)
@@ -45,8 +43,13 @@
     }
 
     function drawNote(note) {
+            var img = new Image;
+            img.src = './dist/bass.png';
             var canvas = document.getElementById("noteCanvas")
             var context = canvas.getContext("2d")
+            img.onload = function(){
+                context.drawImage(img,10,100);
+            };
             context.strokeStyle = "#111";
             context.fillStyle = "#111";
 

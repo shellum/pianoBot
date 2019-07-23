@@ -27,7 +27,7 @@ export default {
         updateTimeElapsed() {
             var currentTime = (new Date()).getTime()
             var seconds = Math.floor((currentTime - this.startTime)/1000)
-            if (seconds >= 5)
+            if (seconds >= 300)
                 eventBus.$emit('timeUp', username)
 
             if (seconds >=60) {
