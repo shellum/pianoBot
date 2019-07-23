@@ -65,6 +65,10 @@ export default {
 </script>
 
 <style scoped>
+  #bar-chart {
+    width: 0px;
+    height: 0px;
+  }
   .mybot {
     margin: auto;
     width: 100%;
@@ -80,8 +84,12 @@ export default {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
   .session {
+    width:0px;
+    height:0px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     opacity: 0;
+    position: absolute;
+    top:0px;
   }
   .header-section {
     display: inline-block;

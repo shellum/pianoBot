@@ -44,7 +44,7 @@
 
     function drawNote(note) {
             var img = new Image;
-            img.src = './dist/bass.png';
+            img.src = './dist/trebble.png';
             var canvas = document.getElementById("noteCanvas")
             var context = canvas.getContext("2d")
             img.onload = function(){
