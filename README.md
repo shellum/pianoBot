@@ -1,4 +1,4 @@
-# piano-bot
+# piano-bot!
 
 > The bot that teaches piano
 
